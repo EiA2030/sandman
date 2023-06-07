@@ -79,29 +79,4 @@ decomposeONAdata <- function(r){
 
 
 
-##### EXAMPLE FOR CASSAVA DATA #####
-
-wd <- "D:/workspace/SAnDMan"
-creds <- scan(paste0(wd, "/pws.txt"), what = "character")
-user <- creds[1]
-pw   <- creds[2]
-
-dss <- findONAdatasets(user = user, pw = pw)
-
-id <- dss[dss$id_string == "Measure_Potato_PO",]$id
-id <- dss[dss$id_string == "EiA_AddOn_Survey_Ethiopia_1",]$id
-
-rd <- getONAdata(user = user, pw = pw, id = id) 
-
-ds <- decomposeONAdata(rd)
-
-head(ds[[1]]) #data at base level
-head(ds[[2]]) #GPS coordinates - redundant since also include in ds[[1]]
-head(ds[[3]]) #plot level data (nested repeat within base level)
-head(ds[[4]]) #disease data (nested repeat across diseases within plot) from two consecutive for loops
-head(subset(ds[[4]], L4 == "plot/PD")) #disease data from PD repeat loop
-head(subset(ds[[4]], L4 == "plot/Pdtubers")) #disease data from Pdtubers repeat loop
-
-
-
 
