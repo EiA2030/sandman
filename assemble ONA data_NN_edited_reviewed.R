@@ -124,7 +124,7 @@ Plant_stand_data<- data_unnested %>%
   dplyr::select(-today)
   
 #Drop rows that have missing values entirely
-Plant_stand_data <- Plant_stand_data[rowSums(is.na(Plant_stand_data)) <= 2, ]
+Plant_stand_data <- Plant_stand_data[rowSums(is.na(Plant_stand_data)) <= ncol(Plant_stand_data)-4-1, ]
 
 # drop duplicated values
 Plant_stand_data <- Plant_stand_data[!duplicated(Plant_stand_data), ]
@@ -195,7 +195,9 @@ dplyr::mutate_at(c("score_vigor","score_weeds"), as.numeric) %>%
 
 # merge all the plot data
 df_list <- list(PD_data,Plant_stand_data_summ,tuberYield_data_summ,plantVigor_weeds_data_summ)      
-combined_data<-df_list %>% reduce(full_join, by=c("FDID2", "TLID2","plot_plot/POID2","plot_plot/POID2_label"))  
+combined_data<-df_list %>% reduce(full_join, by=c("FDID2", "TLID2","plot_plot/POID2","plot_plot/POID2_label")) %>% 
+  rename_with(
+    ~stringr::str_replace_all(.x, c("plot_plot/"), ""))
   
 combined_data <- apply(combined_data, 2, function(x) {
     replace(x, is.null(x) | x == "NAN", NA)
@@ -206,7 +208,7 @@ combined_data <- as.data.frame(combined_data[rowSums(is.na(combined_data)) <= nc
 
 # confirm that there are no duplicates in the data in terms of plot Id
 duplicates <- combined_data %>%
-  filter(duplicated(`plot_plot/POID2`) | duplicated(`plot_plot/POID2`), fromLast = TRUE)
+  filter(duplicated(POID2) | duplicated(POID2), fromLast = TRUE)
 
 #save clean data as xlsx
 writexl::write_xlsx(combined_data,"./data/summary_potato_plot_data.xlsx")
