@@ -25,7 +25,7 @@ getONAdata <- function(user, pw, id){
   require(httr)
   
   url <- paste0("https://api.ona.io/api/v1/data/", id)
-    
+  
   f <- httr::GET(url, httr::authenticate(user, pw))
   r <- httr::content(f)
   
@@ -44,7 +44,7 @@ decomposeONAdata <- function(r){
   require(stringr)
   
   ml <- list()
-
+  
   if(length(r) > 0){
     #prune and melt into a dataframe with structure of nested / consecutive for loops
     mr <- rrapply::rrapply(r, how = "melt") 
@@ -101,7 +101,6 @@ head(ds[[3]]) #plot level data (nested repeat within base level)
 head(ds[[4]]) #disease data (nested repeat across diseases within plot) from two consecutive for loops
 head(subset(ds[[4]], L4 == "plot/PD")) #disease data from PD repeat loop
 head(subset(ds[[4]], L4 == "plot/Pdtubers")) #disease data from Pdtubers repeat loop
-
 
 
 

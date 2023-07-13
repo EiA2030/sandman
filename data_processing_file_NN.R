@@ -95,7 +95,7 @@ crop_names=c("cropPosition","cropUnits","cropIncome","cropHarvest","cropProp","c
 
 crops<- HH_unnested2 %>%
   dplyr::select(ENID,`survey/close/phoneNrRE`,grep(paste(crop_names,collapse = "|"), names(HH_unnested2), value = TRUE)) %>% 
-#filter if crop harvest=999
+  #filter if crop harvest=999
   filter(`survey/cropGroup/cropRepeat_survey/cropGroup/cropRepeat/focusCrop/cropAmount/cropHarvest`!=999) %>% 
   filter(!is.na(`survey/cropGroup/cropRepeat_survey/cropGroup/cropRepeat/cropPosition`))
 # drop rows that are entirely missing
@@ -125,7 +125,7 @@ hh_char_diet <- hh_char_diet[!duplicated(hh_char_diet), ]
 
 #spread the  data to have values for each diet produced
 hh_char_diet= tidyr::pivot_wider(hh_char_diet, names_from = `survey/foodSecurity/dietaryDiversity/dietRepeat_survey/foodSecurity/dietaryDiversity/dietRepeat/foodGroup`,
-values_from = c("survey/foodSecurity/dietaryDiversity/dietRepeat_survey/foodSecurity/dietaryDiversity/dietRepeat/dietDetails/foodProduced","survey/foodSecurity/dietaryDiversity/dietRepeat_survey/foodSecurity/dietaryDiversity/dietRepeat/dietDetails/foodFrequency"))
+                                 values_from = c("survey/foodSecurity/dietaryDiversity/dietRepeat_survey/foodSecurity/dietaryDiversity/dietRepeat/dietDetails/foodProduced","survey/foodSecurity/dietaryDiversity/dietRepeat_survey/foodSecurity/dietaryDiversity/dietRepeat/dietDetails/foodFrequency"))
 # confirn phone number 0789893750 not unique
 
 #merge the 3 datasets
@@ -138,8 +138,8 @@ HH_Describe <- HH_Describe[!duplicated(HH_Describe), ]
 
 #3. Assign Treatment data
 assign_ftp<-getONAdatasets(username = username, password = password, form_id = "523975") %>% 
-# keep only relevant variables
-select(ENID,HHID,today,FDID2_new,phonenumber,FDID2,season,expCode,trial,expCode_label,plantingDate)
+  # keep only relevant variables
+  select(ENID,HHID,today,FDID2_new,phonenumber,FDID2,season,expCode,trial,expCode_label,plantingDate)
 
 # unnest trial column
 assign_ftp_unnested <- unnest_variable(assign_ftp, "trial")
@@ -193,5 +193,4 @@ d_field_unnest <- unnest_variable(d_field1, "fieldHistory")
 d_field_unnest1=unnest_variable(d_field_unnest, "previousYield")
 
 #mering the datasets
-  
-  
+

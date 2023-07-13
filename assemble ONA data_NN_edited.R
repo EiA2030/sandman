@@ -67,7 +67,7 @@ plot_df <- data_unnested %>% select(contains("plot"))
 sapply(plot_df, function(x) sum(is.na(x)))
 
 #------------------------------------------------------------------------------------------
-  #data cleaning
+#data cleaning
 
 ######################################
 # 2. FIELD, TRIAL & PLOT IDENTIFIERS #
@@ -75,8 +75,8 @@ sapply(plot_df, function(x) sum(is.na(x)))
 
 sample_soil_data <- data_unnested %>% 
   select(`ENID`,`latr`,`lonr`,`_uuid`,`lookup`,`deviceid`,`geopoint`,`_duration`,`_xform_id`,`parameters`,`_geolocation`,`_submission_time`,`_date_modified`)
-  
-  
+
+
 # field identifiers=FDID2
 # treatment identifier=TLID2
 #plot identifier=`plot_plot/POID2`
@@ -85,20 +85,20 @@ sample_soil_data <- data_unnested %>%
 
 PD<-c("plot_plot/PD_count","plot_plot/pestDiseases","plot_plot/PD_plot/PD/pestDisease",	
       "plot_plot/PD_plot/PD/pestDiseaseLabel","plot_plot/PD_plot/PD/PD_parameters/score_severity",
-"plot_plot/PD_plot/PD/PD_parameters/score_incidence")	
+      "plot_plot/PD_plot/PD/PD_parameters/score_incidence")	
 
 plantStand<-c("plot_plot/plantStand_parameters/nrPlants",	"plot_plot/plantStand_parameters/plotWidth",
               "plot_plot/plantStand_parameters/plotLength")
 
 tuberYield2<- c("plot_plot/tuberYield1_parameters/tubersNr", "plot_plot/tuberYield2_parameters/tubersFW",            
-"plot_plot/tuberYield3_parameters/tubersFWss",          
-"plot_plot/tuberYield1_parameters/tubersSmallNr","plot_plot/tuberYield2_parameters/tubersSmallFW",       
- "plot_plot/tuberYield1_parameters/tubersDiseasedNr","plot_plot/tuberYield2_parameters/tubersDiseasedFW",   
-"plot_plot/tuberYield1_parameters/tubersMarketableNr","plot_plot/tuberYield2_parameters/tubersMarketableFW",  
- "plot_plot/tuberYield3_parameters/tubersSmallFWss","plot_plot/tuberYield3_parameters/tubersDiseasedFWss", 
-"plot_plot/tuberYield3_parameters/tubersMarketableFWss",
-"tuberYield_parDetails/tuberSampling","tuberYield_parDetails/PD_tubers","tuberYield_parDetails/tuberQuality",
-"tuberYield_parDetails/tuberSampling")
+                "plot_plot/tuberYield3_parameters/tubersFWss",          
+                "plot_plot/tuberYield1_parameters/tubersSmallNr","plot_plot/tuberYield2_parameters/tubersSmallFW",       
+                "plot_plot/tuberYield1_parameters/tubersDiseasedNr","plot_plot/tuberYield2_parameters/tubersDiseasedFW",   
+                "plot_plot/tuberYield1_parameters/tubersMarketableNr","plot_plot/tuberYield2_parameters/tubersMarketableFW",  
+                "plot_plot/tuberYield3_parameters/tubersSmallFWss","plot_plot/tuberYield3_parameters/tubersDiseasedFWss", 
+                "plot_plot/tuberYield3_parameters/tubersMarketableFWss",
+                "tuberYield_parDetails/tuberSampling","tuberYield_parDetails/PD_tubers","tuberYield_parDetails/tuberQuality",
+                "tuberYield_parDetails/tuberSampling")
 
 plantVigor_weeds<-c("plot_plot/weeds_parameters/score_weeds","plot_plot/plantVigor_parameters/score_vigor",
                     "pesticides", "weeding")
@@ -135,4 +135,3 @@ dta_summary <- clean_data%>%
 #save clean data as xlsx
 writexl::write_xlsx(dta_summary,"./data/summary_potato_plot_data.xlsx")
 writexl::write_xlsx(clean_data,"./data/clean_potato_plot_data.xlsx")
-  
