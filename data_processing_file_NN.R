@@ -138,7 +138,7 @@ hh_char_diet <- hh_char_diet[!duplicated(hh_char_diet), ]
 # values_from = c("survey/foodSecurity/dietaryDiversity/dietRepeat_survey/foodSecurity/dietaryDiversity/dietRepeat/dietDetails/foodProduced","survey/foodSecurity/dietaryDiversity/dietRepeat_survey/foodSecurity/dietaryDiversity/dietRepeat/dietDetails/foodFrequency"))
 
 
-#merge the 3 datasets (needs to find a way to reduce duplicates in some datasets so we can do 1:1 merge)
+#merge the 3 datasets (needs to find a way to reduce duplicates so we can do 1:1 merge)
 
 df_list<-  list(other_var,pop,livestock,crops,hh_char_diet)      
 HH_Describe<-df_list %>% reduce(full_join, by=c("survey/barcodehousehold")) 
@@ -252,6 +252,6 @@ d_field_clean <- d_field_clean[!duplicated(d_field_clean), ]
 
 
 #----------------------------------------------------------------------------------------------------
-#merging all the  datasets
+#merging all the datasets
   
   
