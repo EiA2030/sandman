@@ -56,21 +56,49 @@ Plant_stand_data<- data %>%
 
 #Plot data
 
-plot1<- data %>% 
+plot_data<- data %>% 
   dplyr::select(`intro/enumerator_ID`,`intro/barcodehousehold`,crop,grep("plotDescription.*", names(data), value = TRUE))
 
-vv<- plot1 %>% 
+plot1<- plot_data %>% 
   gather(v, value, 5:26) %>% 
   mutate(treat=ifelse(v %in% grep("*.AEZ.*",v, value=T),"AEZ",
                       ifelse(v %in% grep("*.BR.*",v, value=T),"BR",
                              ifelse(v %in% grep("*.SSR.*",v, value=T),"SSR", NA)))) %>% 
   separate(v, c("details","var", "col"),"/") %>% 
   select(-details) %>% 
-  arrange(`intro/enumerator_ID`,`intro/barcodehousehold`) %>% 
-  spread(col, value) %>% 
-  select(-var) %>% 
-  gather(v, value, 5:26)
-  
+  mutate(col1=gsub("\\_aez|\\_BR|\\_ssr|\\_control", "", col)) %>% 
+  mutate(col1=gsub("_SSR","",col1)) %>% select(-c(col,var))
 
+# clean col to reshape wide
+
+reshaped_data <- plot1 %>% 
+  pivot_wider(
+  id_cols = c("intro/enumerator_ID", "intro/barcodehousehold", "crop", "plotDescription/plotSizeDetails/row_number","treat"),
+  names_from = col1,
+  values_from = value
+)
+
+#drop rows that are entirely missing
+
+reshaped_data <- reshaped_data[rowSums(is.na(reshaped_data)) <= ncol(reshaped_data)-5-1, ]
+
+
+# land preparation data
+land_prep_data<- data %>% 
+  dplyr::select(`intro/enumerator_ID`,`intro/barcodehousehold`,crop,grep("LandPreparation*", names(data), value = TRUE))
+
+
+# crop management data
+
+crop_mgt_data<- data %>% 
+  dplyr::select(`intro/enumerator_ID`,`intro/barcodehousehold`,crop,grep("cropManagement*", names(data), value = TRUE))
+
+# merge all the datasets
+
+df_list<- list(reshaped_data,Plant_stand_data,land_prep_data,crop_mgt_data) 
+
+full_data<-df_list %>% reduce(full_join, by=c("intro/enumerator_ID", "intro/barcodehousehold","crop")) %>% 
+  rename_with(
+    ~stringr::str_replace_all(.x, c("plot_plot/"), ""))
 
 
