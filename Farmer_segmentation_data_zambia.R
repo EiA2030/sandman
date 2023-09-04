@@ -324,8 +324,7 @@ data_6 <- data_6[!duplicated(data_6), ]
  
  # export the data to xlsx
 
- writexl::write_xlsx(data_6,
-                     "D:/IITA/data/farmer_seg_data_Zambia.xlsx")
+ writexl::write_xlsx(data_6,"D:/IITA/data/farmer_seg_data_Zambia.xlsx")
  
  
  
